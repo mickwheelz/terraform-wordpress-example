@@ -1,0 +1,14 @@
+resources:
+  requests:
+    memory: 128Mi
+    cpu: 0
+replicaCount: 1
+ingress:
+  enabled: true
+  annotations: 
+    kubernetes.io/ingress.class: ngnix
+  hosts: 
+  - name: bog.mickwheelz.net
+    path: / 
+service:
+  type: ClusterIP
