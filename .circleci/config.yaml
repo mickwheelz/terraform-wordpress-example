@@ -1,0 +1,50 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: hashicorp/terraform:0.11.13
+    steps:
+      - checkout
+      - run:
+          name: Install Helm
+          command: |
+            curl -sL "https://storage.googleapis.com/kubernetes-helm/helm-v2.13.1-linux-amd64.tar.gz" | tar -xzvf-
+            mv linux-amd64/helm /usr/local/bin/helm
+            helm init --client-only
+            echo 'export HELM_HOME=$HELM_HOME' >> $BASH_ENV
+      - run:
+          name: Terraform Init
+          command: terraform init -input=false
+      - run:
+          name: Terraform Plan
+          command: terraform plan -input=false -out=plan
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .terraform
+            - plan
+  deploy:
+    docker:
+    - image: hashicorp/terraform:0.11.13
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: Install Helm
+          command: |
+            curl -sL "https://storage.googleapis.com/kubernetes-helm/helm-v2.13.1-linux-amd64.tar.gz" | tar -xzvf-
+            mv linux-amd64/helm /usr/local/bin/helm
+            helm init --client-only
+            echo 'export HELM_HOME=$HELM_HOME' >> $BASH_ENV
+      - run:
+          name: Terraform Init
+          command: terraform apply -input=false plan
+workflows:
+  version: 2
+  BuildAndDeploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build

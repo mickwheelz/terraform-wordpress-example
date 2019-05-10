@@ -28,8 +28,8 @@ resource "helm_release" "wordpress" {
 }
 data "kubernetes_service" "ngnix" {
   metadata {
-    name = "ngnix-ingress-controller"
-    namespace = "${helm_release.nginx.metadata.0.namespace}"
+    name = "nginx-ingress-controller"
+    namespace = "${helm_release.ngnix.metadata.0.namespace}"
   }
 }
 //show the ip address for the ingress controller
