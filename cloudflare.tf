@@ -14,5 +14,4 @@ resource "cloudflare_record" "wordpress-subdomain" {
   name   = "bog"
   value  = "${data.kubernetes_service.ngnix.load_balancer_ingress.0.ip}"
   type   = "A"
-  ttl    = 3600
 }
