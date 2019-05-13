@@ -11,7 +11,7 @@ resource "google_compute_subnetwork" "default" {
 }
 //create the cluster
 resource "google_container_cluster" "primary" {
-  name     = "boglodite"
+  name     = "example-cluster"
   remove_default_node_pool = true
   initial_node_count = 1
   master_auth { //disable basic auth
@@ -26,7 +26,7 @@ resource "google_container_cluster" "primary" {
 }
 //create the node pool and nodes for the cluster
 resource "google_container_node_pool" "primary_preemptible_nodes" {
-  name       = "boglodite-pool"
+  name       = "example-pool"
   cluster    = "${google_container_cluster.primary.name}"
   node_count = 2
   node_config {

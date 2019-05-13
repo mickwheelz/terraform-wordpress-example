@@ -6,17 +6,17 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install Helm
+          name: Install helm
           command: |
             curl -sL "https://storage.googleapis.com/kubernetes-helm/helm-v2.13.1-linux-amd64.tar.gz" | tar -xzvf-
             mv linux-amd64/helm /usr/local/bin/helm
             helm init --client-only
             echo 'export HELM_HOME=$HELM_HOME' >> $BASH_ENV
       - run:
-          name: Terraform Init
+          name: Run terraform initialisation 
           command: terraform init -input=false
       - run:
-          name: Terraform Plan
+          name: Run terraform plan & cache plan file 
           command: terraform plan -input=false -out=plan
       - persist_to_workspace:
           root: .
@@ -31,14 +31,14 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: Install Helm
+          name: Install helm
           command: |
             curl -sL "https://storage.googleapis.com/kubernetes-helm/helm-v2.13.1-linux-amd64.tar.gz" | tar -xzvf-
             mv linux-amd64/helm /usr/local/bin/helm
             helm init --client-only
             echo 'export HELM_HOME=$HELM_HOME' >> $BASH_ENV
       - run:
-          name: Terraform Init
+          name: Apply terraform plan from cache
           command: terraform apply -input=false plan
 workflows:
   version: 2

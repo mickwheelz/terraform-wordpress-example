@@ -6,9 +6,9 @@ replicaCount: 1
 ingress:
   enabled: true
   annotations: 
-    kubernetes.io/ingress.class: ngnix
+    kubernetes.io/ingress.class: nginx
   hosts: 
-  - name: bog.mickwheelz.net
+  - name: example.mickwheelz.net
     path: / 
 service:
   type: ClusterIP

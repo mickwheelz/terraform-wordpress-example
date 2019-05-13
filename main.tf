@@ -1,8 +1,8 @@
 //setup the terraform backend using gcp storage 
 terraform {
     backend "gcs" {
-        bucket = "boghead-terraform-state"
-        prefix = "terrychaps/state"
+        bucket = "example-terraform-state"
+        prefix = "terraform/state"
     }
 }
 //provider for gcs and cloud flare, not needed for info only
